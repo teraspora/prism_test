@@ -2,6 +2,10 @@
   outline: 0px solid transparent;
 }
 
+body {
+    background-color: #fde;
+}
+
 main {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -12,13 +16,16 @@ pre[class*="language-"].line-numbers > code {
 }
 
 .text {
-    width: 48vw;
+    width: 42vw;
     font-size: 1.2vw;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 2vw;
+    padding: 2vw;
 }
 
 .code {
-    width: 48vw;
+    width: 42vw;
+    padding: 2vw;
 }
 
 .code:nth-of-type(odd) {

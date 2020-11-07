@@ -56,67 +56,67 @@
 
 		<section class="code">
 			<pre><code class="language-python" contenteditable="true">
-			from flask import Flask, redirect, render_template, request # flash
-			import os
-			from datetime import datetime
-			import json
-			
-			app = Flask(__name__)
-			# app.secret_key = 'some secret'
-			
-			def write_file(fname, data):
-			with open(fname, "a") as f:
-			f.writelines(data)
-			
-			
-			def add_msgs(uname, msg):
-			"""
-			Add messages to msgs array
-			"""
-				t = datetime.now().strftime("%H:%M:%S")
-				write_file("data/msgs.txt", f'({t}): {uname.title()}: {msg}\n')
-			
-			def get_msgs():
-			"""
-			Get all messages
-			"""
-				msgs = []
-				with open("data/msgs.txt", "r") as chat_msgs:
-				msgs = chat_msgs.readlines()
-				return msgs
+	from flask import Flask, redirect, render_template, request # flash
+	import os
+	from datetime import datetime
+	import json
+
+	app = Flask(__name__)
+	# app.secret_key = 'some secret'
+
+	def write_file(fname, data):
+		with open(fname, "a") as f:
+		f.writelines(data)
+
+
+	def add_msgs(uname, msg):
+	"""
+	Add messages to msgs array
+	"""
+		t = datetime.now().strftime("%H:%M:%S")
+		write_file("data/msgs.txt", f'({t}): {uname.title()}: {msg}\n')
+
+	def get_msgs():
+	"""
+	Get all messages
+	"""
+		msgs = []
+		with open("data/msgs.txt", "r") as chat_msgs:
+		msgs = chat_msgs.readlines()
+		return msgs
 			</code></pre>
 		</section>
 
 		<section class="code">
 			<pre><code class="language-python" contenteditable="true">
-			@app.route("/", methods = ["GET", "POST"])
-			@app.route("/index", methods = ["GET", "POST"])
-			def index():
-			"""
-			Main page with instructions
-			"""
-				if request.method == "POST":
-				u = request.form["username"]
-				write_file("data/users.txt", f'{u};\n')
-				return redirect(u)
-				return render_template("index.html")
-			
-			@app.route("/<uname>")
-				def username(uname):
-				"""
-				Display chat messages
-				"""
-					return render_template("chat.html", uname=uname, chat_msgs=get_msgs())
-			
-			@app.route("/<uname>/<msg>")
-				def send_message(uname, msg):
-				"""
-				Create new message & redirect back to chat page
-				"""
-					add_msgs(uname, msg)
-					return redirect(uname)
+	@app.route("/", methods = ["GET", "POST"])
+	@app.route("/index", methods = ["GET", "POST"])
+	def index():
+	"""
+	Main page with instructions
+	"""
+		if request.method == "POST":
+		u = request.form["username"]
+		write_file("data/users.txt", f'{u};\n')
+		return redirect(u)
+		return render_template("index.html")
 	
-			app.run(host=os.getenv('IP'), port=int(os.getenv('PORT', 5000)), debug=True)
+	@app.route("/<uname>")
+		def username(uname):
+		"""
+		Display chat messages
+		"""
+			return render_template("chat.html", uname=uname, chat_msgs=get_msgs())
+	
+	@app.route("/<uname>/<msg>")
+		def send_message(uname, msg):
+		"""
+		Create new message & redirect back to chat page
+		"""
+			add_msgs(uname, msg)
+			return redirect(uname)
+
+	app.run(host=os.getenv('IP'), port=int(os.getenv('PORT', 5000)), debug=True)
 			</code></pre>
 		</section>
 		<section class="text">

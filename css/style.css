@@ -11,6 +11,17 @@ main {
     grid-template-columns: 1fr 1fr;
 }
 
+nav {
+    grid-row: 1;
+    color: #fde;
+    background-color: #021;
+    border-bottom: 2px solid #201;
+    border-radius: 10px;
+    font-size: 2vw;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 1vw;
+}
+
 pre[class*="language-"].line-numbers > code {
     margin: 1vw;
 }

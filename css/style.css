@@ -1,0 +1,38 @@
+[contenteditable] {
+  outline: 0px solid transparent;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+pre[class*="language-"].line-numbers > code {
+    margin: 1vw;
+}
+
+.text {
+    width: 48vw;
+    font-size: 1.2vw;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.code {
+    width: 48vw;
+}
+
+.code:nth-of-type(odd) {
+    grid-column: 1/2;
+}
+
+.code:nth-of-type(even) {
+    grid-column: 2/-1;
+}
+
+.text:nth-of-type(odd) {
+    grid-column: 1/2;
+}
+
+.text:nth-of-type(even) {
+    grid-column: 2/-1;
+}

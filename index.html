@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Code Highlighter Test</title>
+    <meta name="description" content="Play with code highlighter libraries">
+	<meta name="author" content="John Lynch">
+	<link href="css/prism.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="line-numbers">
+	<main>
+		<section class="text">
+			<h2>The Asterisk(R) Open Source PBX</h2>
+			
+			By Mark Spencer <markster@digium.com> and the Asterisk.org developer community.
+				Copyright (C) 2001-2019 Digium, Inc. and other copyright holders.
+				
+				<p>SECURITY
+			
+				It is imperative that you read and fully understand the contents of
+				the security information document before you attempt to configure and run
+				an Asterisk server.
+			
+				See [Important Security Considerations] for more information.
+			
+				</p>
+<p>WHAT IS ASTERISK ?
+			
+				Asterisk is an Open Source PBX and telephony toolkit. It is, in a
+				sense, middleware between Internet and telephony channels on the bottom,
+				and Internet and telephony applications at the top. However, Asterisk supports
+				more telephony interfaces than just Internet telephony. Asterisk also has a
+				vast amount of support for traditional PSTN telephony, as well.
+			
+				For more information on the project itself, please visit the Asterisk
+				[home page] and the official [wiki]. In addition you'll find lots
+				of information compiled by the Asterisk community at [voip-info.org].
+			
+				There is a book on Asterisk published by O'Reilly under the Creative Commons
+				License. It is available in book stores as well as in a downloadable version on
+				the [asteriskdocs.org] web site.
+			
+				</p>
+<h3>SUPORTED OPERATING SYSTEMS</h3>
+<p>Linux</p>
+			
+				<blockquote>
+					The Asterisk Open Source PBX is developed and tested primarily on the
+					GNU/Linux operating system, and is supported on every major GNU/Linux
+					distribution.
+				</blockquote>
+		</section>
+
+		<section class="code">
+			<pre><code class="language-python" contenteditable="true">
+			from flask import Flask, redirect, render_template, request # flash
+			import os
+			from datetime import datetime
+			import json
+			
+			app = Flask(__name__)
+			# app.secret_key = 'some secret'
+			
+			def write_file(fname, data):
+			with open(fname, "a") as f:
+			f.writelines(data)
+			
+			
+			def add_msgs(uname, msg):
+			"""
+			Add messages to msgs array
+			"""
+				t = datetime.now().strftime("%H:%M:%S")
+				write_file("data/msgs.txt", f'({t}): {uname.title()}: {msg}\n')
+			
+			def get_msgs():
+			"""
+			Get all messages
+			"""
+				msgs = []
+				with open("data/msgs.txt", "r") as chat_msgs:
+				msgs = chat_msgs.readlines()
+				return msgs
+			</code></pre>
+		</section>
+
+		<section class="code">
+			<pre><code class="language-python" contenteditable="true">
+			@app.route("/", methods = ["GET", "POST"])
+			@app.route("/index", methods = ["GET", "POST"])
+			def index():
+			"""
+			Main page with instructions
+			"""
+				if request.method == "POST":
+				u = request.form["username"]
+				write_file("data/users.txt", f'{u};\n')
+				return redirect(u)
+				return render_template("index.html")
+			
+			@app.route("/<uname>")
+				def username(uname):
+				"""
+				Display chat messages
+				"""
+					return render_template("chat.html", uname=uname, chat_msgs=get_msgs())
+			
+			@app.route("/<uname>/<msg>")
+				def send_message(uname, msg):
+				"""
+				Create new message & redirect back to chat page
+				"""
+					add_msgs(uname, msg)
+					return redirect(uname)
+	
+			app.run(host=os.getenv('IP'), port=int(os.getenv('PORT', 5000)), debug=True)
+			</code></pre>
+		</section>
+		<section class="text">
+			<h2>Third-party tutorials</h2>
+			<p>
+				Supports parallelism with Web Workers, if available. Disabled by default (why?).
+				Very easy to extend without modifying the code, due to Prism’s plugin architecture. Multiple hooks are scattered
+				throughout the source.
+				Very easy to define new languages. Only thing you need is a good understanding of regular expressions
+				All styling is done through CSS, with sensible class names rather than ugly namespaced abbreviated nonsense.
+				Wide browser support: Edge, IE11, Firefox, Chrome, Safari, Opera, most Mobile browsers
+				Highlights embedded languages (e.g. CSS inside HTML, JavaScript inside HTML)
+				Highlights inline code as well, not just code blocks
+				Highlights nested languages (CSS in HTML, JavaScript in HTML)
+				It doesn’t force you to use any Prism-specific markup, not even a Prism-specific class name, only standard markup you
+				should be using anyway. So, you can just try it for a while, remove it if you don’t like it and leave no traces behind.
+				Highlight specific lines and/or line ranges (requires plugin)
+				Show invisible characters like tabs, line breaks etc (requires plugin)
+			</p>
+		</section>
+	</main>
+	
+<script type="text/javascript" src="scripts/main.js"></script>
+<script src="scripts/prism.js"></script>
+</body>
+
+</html>
